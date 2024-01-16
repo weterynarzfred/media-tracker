@@ -1,5 +1,5 @@
-export default function EntryItem() {
+export default function EntryItem({ entry }) {
   return <div className="EntryItem">
-    entry item
+    {entry.id} [{entry.type}]: {entry.name}
   </div>;
 }
