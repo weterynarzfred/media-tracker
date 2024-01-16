@@ -1,0 +1,23 @@
+{
+  "name": "media-tracker",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "classnames": "^2.5.1",
+    "eslint": "8.56.0",
+    "eslint-config-next": "14.0.4",
+    "immer": "^10.0.3",
+    "lodash": "^4.17.21",
+    "lowdb": "^7.0.1",
+    "next": "14.0.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-tracked": "^1.7.11",
+    "sass": "^1.69.7"
+  }
+}
