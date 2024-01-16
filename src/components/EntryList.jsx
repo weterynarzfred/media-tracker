@@ -1,4 +1,4 @@
-import EntryCreator from './EntryCreator';
+import EntryEditor from './EntryEditor';
 import EntryItem from './EntryItem';
 import { useTrackedState } from './StateProvider';
 
@@ -12,6 +12,6 @@ export default function EntryList() {
   return <div className="EntryList">
     entry list
     {items}
-    <EntryCreator />
+    <EntryEditor />
   </div>;
 }

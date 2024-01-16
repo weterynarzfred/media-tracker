@@ -22,8 +22,17 @@ export default function EntryItem({ entry }) {
     });
   }
 
+  function handleEdit() {
+    dispatch({
+      type: ACTION_TYPES.ENTRY_EDITOR,
+      isOpen: true,
+      id: entry.id,
+    });
+  }
+
   return <div className="EntryItem">
     {entry.id} [{entry.type}]: {entry.name}
     <button className="EntryItem__delete" onClick={handleDelete}>x</button>
+    <button className="EntryItem__edit" onClick={handleEdit}>e</button>
   </div>;
 }

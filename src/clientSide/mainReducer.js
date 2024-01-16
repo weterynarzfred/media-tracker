@@ -3,8 +3,9 @@ import Enum from '../lib/Enum';
 const ACTION_TYPES = new Enum([
   'INIT',
   'TEST',
-  'ENTRY_CREATE',
+  'ENTRY_EDIT',
   'ENTRY_DELETE',
+  'ENTRY_EDITOR',
 ]);
 
 export default function mainReducer(state, action) {
@@ -13,10 +14,14 @@ export default function mainReducer(state, action) {
     state.isLoaded = true;
   } else if (action.type === ACTION_TYPES.TEST) {
     state.test = state?.test === undefined ? 1 : state.test + 1;
-  } else if (action.type === ACTION_TYPES.ENTRY_CREATE) {
+  } else if (action.type === ACTION_TYPES.ENTRY_EDIT) {
     state.entries[action.entry.id] = action.entry;
   } else if (action.type === ACTION_TYPES.ENTRY_DELETE) {
     delete state.entries[action.id];
+  } else if (action.type === ACTION_TYPES.ENTRY_EDITOR) {
+    if (state.entryEditor === undefined) state.entryEditor = {};
+    if (action.isOpen !== undefined) state.entryEditor.isOpen = action.isOpen;
+    if (action.id !== undefined) state.entryEditor.id = action.id;
   }
 }
 
