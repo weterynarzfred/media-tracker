@@ -1,6 +1,6 @@
 import { JSONFilePreset } from 'lowdb/node';
 
-const db = await JSONFilePreset('db.json', { entries: [{ id: 0 }] });
+const db = await JSONFilePreset('db.json', { entries: [] });
 
 function getDB() {
   return db.data;
