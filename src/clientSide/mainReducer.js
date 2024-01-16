@@ -1,12 +1,10 @@
-import Enum from '../lib/Enum';
-
-const ACTION_TYPES = new Enum([
-  'INIT',
-  'TEST',
-  'ENTRY_EDIT',
-  'ENTRY_DELETE',
-  'ENTRY_EDITOR',
-]);
+const ACTION_TYPES = {
+  INIT: 'INIT',
+  TEST: 'TEST',
+  ENTRY_EDIT: 'ENTRY_EDIT',
+  ENTRY_DELETE: 'ENTRY_DELETE',
+  ENTRY_EDITOR: 'ENTRY_EDITOR',
+};
 
 export default function mainReducer(state, action) {
   if (action.type === ACTION_TYPES.INIT) {
