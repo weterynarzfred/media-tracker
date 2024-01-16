@@ -1,5 +1,6 @@
 import { useDispatch, useTrackedState } from './StateProvider';
 import { ACTION_TYPES } from '../clientSide/mainReducer';
+import createEntry from '../clientSide/createEntry';
 
 export default function EntryEditor() {
   const state = useTrackedState();
@@ -14,24 +15,19 @@ export default function EntryEditor() {
       name: formElement.querySelector('[name=name]').value,
     };
 
-    fetch('/api/entries', {
-      method: editedEntry === undefined ? 'POST' : 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
+    createEntry({
+      entry,
+      isNew: editedEntry === undefined,
+      callback: data => {
+        dispatch({
+          type: ACTION_TYPES.ENTRY_EDIT,
+          entry: data.entry,
+        });
+        dispatch({
+          type: ACTION_TYPES.ENTRY_EDITOR,
+          isOpen: false,
+        });
       },
-      body: JSON.stringify({ entry }),
-    }).then(response => {
-      if (response.ok) return response.json();
-      else throw new Error('network error');
-    }).then(data => {
-      dispatch({
-        type: ACTION_TYPES.ENTRY_EDIT,
-        entry: data.entry,
-      });
-      dispatch({
-        type: ACTION_TYPES.ENTRY_EDITOR,
-        isOpen: false,
-      });
     });
   }
 
