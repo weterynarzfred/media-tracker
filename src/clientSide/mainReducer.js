@@ -4,7 +4,7 @@ const ACTION_TYPES = new Enum([
   'INIT',
   'TEST',
   'ENTRY_CREATE',
-  'ENTRY_CREATED',
+  'ENTRY_DELETE',
 ]);
 
 export default function mainReducer(state, action) {
@@ -15,6 +15,8 @@ export default function mainReducer(state, action) {
     state.test = state?.test === undefined ? 1 : state.test + 1;
   } else if (action.type === ACTION_TYPES.ENTRY_CREATE) {
     state.entries[action.entry.id] = action.entry;
+  } else if (action.type === ACTION_TYPES.ENTRY_DELETE) {
+    delete state.entries[action.id];
   }
 }
 

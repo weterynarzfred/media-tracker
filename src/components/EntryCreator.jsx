@@ -30,7 +30,6 @@ export default function EntryCreator() {
       });
       setIsOpen(false);
     });
-
   }
 
   const creatorWindow = <div className="EntryCreator__window">

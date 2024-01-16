@@ -15,6 +15,15 @@ export default async function handler(req, res) {
     };
     await saveDB();
     res.status(201).json({ entry: data.entries[currentId] });
+  }
+  else if (req.method === 'DELETE') {
+    if (data.entries[req.body.id] === undefined)
+      res.status(404).json({ message: 'entry not found' });
+    else {
+      delete data.entries[req.body.id];
+      await saveDB();
+      res.status(200).json({ message: 'entry deleted' });
+    }
   } else {
     res.status(400).json({ message: 'method not supported' });
   }
