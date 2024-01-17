@@ -19,12 +19,12 @@ export default async function handler(req, res) {
       });
       const [fields, files] = await form.parse(req);
 
-      console.log(fields.id[0]);
       const didExist = parseInt(fields.id[0]) !== -1;
       const currentId = didExist ? fields.id[0] : data.nextId++;
       data.entries[currentId] = { id: currentId };
       for (const fieldKey in fields) {
         if (fieldKey === 'id') continue;
+        if (fieldKey === 'cover' && fields[fieldKey][0] === '') continue;
         const value = fields[fieldKey][0];
         data.entries[currentId][fieldKey] = value;
       }
@@ -39,7 +39,7 @@ export default async function handler(req, res) {
       res.status(didExist ? 201 : 200).json({
         entry: {
           ...data.entries[currentId],
-          cover: data.entries[currentId].cover === undefined ? undefined : data.entries[currentId].cover + `?v=${Math.random()}`
+          cover: data.entries[currentId].cover === undefined ? undefined : data.entries[currentId].cover + `?rand=${Math.random()}`
         }
       });
     } catch (error) {
