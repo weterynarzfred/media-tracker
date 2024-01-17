@@ -8,5 +8,8 @@ handler.use(['/api/media', '/media'], serveFiles);
 export default handler;
 
 export const config = {
-  api: { externalResolver: true }
+  api: {
+    externalResolver: true,
+    responseLimit: false,
+  }
 };

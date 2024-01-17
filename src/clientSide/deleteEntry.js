@@ -1,5 +1,5 @@
 export default function deleteEntry({ entry, callback }) {
-  fetch('/api/entries', {
+  fetch(`/api/entries/${entry.id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

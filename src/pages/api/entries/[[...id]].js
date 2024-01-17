@@ -1,32 +1,35 @@
 import fs from 'fs';
 import formidable from 'formidable';
-import getRawBody from 'raw-body';
 
-import { getDB, saveDB } from '../../serverSide/DB';
+import { getDB, saveDB } from '../../../serverSide/DB';
+
 
 export default async function handler(req, res) {
   const data = getDB();
 
   if (req.method === 'GET') {
     // TODO: sorting and filtering
-    res.status(200).json({ entries: data.entries });
+    if (req.query.id?.[0] === undefined)
+      res.status(200).json({ entries: data.entries });
+    else if (data.entries[req.query.id?.[0]] !== undefined)
+      res.status(200).json({ entry: data.entries[req.query.id?.[0]] });
+    else
+      res.status(404).json({ message: 'entry not found' });
 
     // POST | PUT
   } else if (req.method === 'POST' || req.method === 'PUT') {
     try {
-      const form = formidable({
-        filter: part => part.originalFilename !== '',
-      });
+      const form = formidable({ filter: part => part.originalFilename !== '' });
       const [fields, files] = await form.parse(req);
 
-      const didExist = parseInt(fields.id[0]) !== -1;
-      const currentId = didExist ? fields.id[0] : data.nextId++;
+      const didExist = data.entries[req.query.id?.[0]] !== undefined;
+      const currentId = didExist ? req.query.id[0] : data.nextId++;
       data.entries[currentId] = { id: currentId };
       for (const fieldKey in fields) {
         if (fieldKey === 'id') continue;
         if (fieldKey === 'cover' && fields[fieldKey][0] === '') continue;
-        const value = fields[fieldKey][0];
-        data.entries[currentId][fieldKey] = value;
+
+        data.entries[currentId][fieldKey] = fields[fieldKey][0];
       }
 
       if (files.cover !== undefined) {
@@ -51,15 +54,18 @@ export default async function handler(req, res) {
 
     // DELETE
   } else if (req.method === 'DELETE') {
-    const body = JSON.parse((await getRawBody(req)).toString());
-    if (data.entries[body.id] === undefined)
+    if (req.query.id?.[0] === undefined)
+      res.status(400).json({ message: 'method not supported' });
+    else if (data.entries[req.query.id?.[0]] === undefined)
       res.status(404).json({ message: 'entry not found' });
     else {
-      if (data.entries[body.id].cover !== undefined) {
-        fs.unlinkSync(`./media/${data.entries[body.id].cover}`);
+      if (data.entries[req.query.id].cover !== undefined) {
+        try {
+          fs.unlinkSync(`./media/${data.entries[req.query.id?.[0]].cover}`);
+        } catch { }
       }
 
-      delete data.entries[body.id];
+      delete data.entries[req.query.id];
       await saveDB();
       res.status(200).json({ message: 'entry deleted' });
     }

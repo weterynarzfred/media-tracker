@@ -1,5 +1,5 @@
 export default function createEntry({ form, isNew = true, callback }) {
-  fetch('/api/entries', {
+  fetch(isNew ? '/api/entries' : `/api/entries/${form.get('id')}`, {
     method: isNew ? 'POST' : 'PUT',
     body: form,
   }).then(response => {
