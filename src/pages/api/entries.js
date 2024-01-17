@@ -11,15 +11,17 @@ export default async function handler(req, res) {
     // TODO: sorting and filtering
     res.status(200).json({ entries: data.entries });
 
-    // POST
-  } else if (req.method === 'POST') {
+    // POST | PUT
+  } else if (req.method === 'POST' || req.method === 'PUT') {
     try {
       const form = formidable({
         filter: part => part.originalFilename !== '',
       });
       const [fields, files] = await form.parse(req);
 
-      const currentId = data.nextId++;
+      console.log(fields.id[0]);
+      const didExist = parseInt(fields.id[0]) !== -1;
+      const currentId = didExist ? fields.id[0] : data.nextId++;
       data.entries[currentId] = { id: currentId };
       for (const fieldKey in fields) {
         if (fieldKey === 'id') continue;
@@ -34,42 +36,18 @@ export default async function handler(req, res) {
       }
 
       await saveDB();
-      res.status(201).json({ entry: data.entries[currentId] });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'error parsing form data' });
-    }
-
-    // PUT
-  } else if (req.method === 'PUT') {
-    try {
-      const form = formidable({
-        filter: part => part.originalFilename !== '',
+      res.status(didExist ? 201 : 200).json({
+        entry: {
+          ...data.entries[currentId],
+          cover: data.entries[currentId].cover === undefined ? undefined : data.entries[currentId].cover + `?v=${Math.random()}`
+        }
       });
-      const [fields, files] = await form.parse(req);
-
-      const currentId = fields.id[0] === -1 ? data.nextId++ : fields.id[0];
-      data.entries[currentId] = { id: currentId };
-      for (const fieldKey in fields) {
-        const value = fields[fieldKey][0];
-        data.entries[currentId][fieldKey] = value;
-      }
-
-      if (files.cover !== undefined) {
-        const extension = files.cover[0].originalFilename.split('.').pop();
-        fs.copyFileSync(files.cover[0].filepath, `./media/${currentId}.${extension}`);
-        data.entries[currentId].cover = `${currentId}.${extension}`;
-      }
-
-      await saveDB();
-      res.status(201).json({ entry: data.entries[currentId] });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'error parsing form data' });
     }
 
-    // await saveDB();
-    // res.status(didExists ? 201 : 200).json({ entry: data.entries[req.body.entry.id] });
+    await saveDB();
 
     // DELETE
   } else if (req.method === 'DELETE') {
