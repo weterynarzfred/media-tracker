@@ -24,6 +24,8 @@ export default function EntryItem({ entry }) {
   }
 
   return <div className="EntryItem">
+    {/* eslint-disable-next-line @next/next/no-img-element */}
+    <img src={`/media/${entry.cover}`} alt={entry.name + ' cover'} style={{ display: 'block', width: '200px', height: 'auto' }} />
     {entry.id} [{entry.type}]: {entry.name}
     <button className="EntryItem__delete" onClick={handleDelete}>x</button>
     <button className="EntryItem__edit" onClick={handleEdit}>e</button>
