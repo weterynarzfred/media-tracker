@@ -30,6 +30,8 @@ export default function EntryEditor() {
 
   const creatorWindow = <div className="EntryCreator__window">
     <form onSubmit={handleSubmit}>
+      <input type="hidden" name="id" value={editedEntry?.id ?? -1} />
+      <input type="hidden" name="cover" value={editedEntry?.cover ?? null} />
       <div>
         <label>
           <input type="text" name="type" placeholder="type" autoComplete="off" defaultValue={editedEntry?.type} />

@@ -1,21 +1,8 @@
 import fs from 'fs';
 import formidable from 'formidable';
+import getRawBody from 'raw-body';
 
 import { getDB, saveDB } from '../../serverSide/DB';
-
-function parseEntry(entry) {
-  if (entry.coverData !== undefined) {
-    fs.writeFileSync(
-      `./media/${entry.id}.${entry.coverExtension}`,
-      str2ab(entry.coverData)
-    );
-    entry.cover = `${entry.id}.${entry.coverExtension}`;
-    delete entry.coverData;
-    delete entry.coverExtension;
-  }
-
-  return entry;
-}
 
 export default async function handler(req, res) {
   const data = getDB();
@@ -27,23 +14,23 @@ export default async function handler(req, res) {
     // POST
   } else if (req.method === 'POST') {
     try {
-      const currentId = data.nextId++;
       const form = formidable({
-        uploadDir: './media',
-        keepExtensions: true,
-        filename: (_originalFilename, extension) => `${currentId}.${extension}`,
         filter: part => part.originalFilename !== '',
       });
       const [fields, files] = await form.parse(req);
 
+      const currentId = data.nextId++;
       data.entries[currentId] = { id: currentId };
       for (const fieldKey in fields) {
+        if (fieldKey === 'id') continue;
         const value = fields[fieldKey][0];
         data.entries[currentId][fieldKey] = value;
       }
 
       if (files.cover !== undefined) {
-        data.entries[currentId].cover = files.cover[0].newFilename;
+        const extension = files.cover[0].originalFilename.split('.').pop();
+        fs.copyFileSync(files.cover[0].filepath, `./media/${currentId}.${extension}`);
+        data.entries[currentId].cover = `${currentId}.${extension}`;
       }
 
       await saveDB();
@@ -55,21 +42,46 @@ export default async function handler(req, res) {
 
     // PUT
   } else if (req.method === 'PUT') {
-    const didExists = data.entries[req.body.entry.id] !== undefined;
-    data.entries[req.body.entry.id] = parseEntry(req.body.entry);
-    await saveDB();
-    res.status(didExists ? 201 : 200).json({ entry: data.entries[req.body.entry.id] });
+    try {
+      const form = formidable({
+        filter: part => part.originalFilename !== '',
+      });
+      const [fields, files] = await form.parse(req);
+
+      const currentId = fields.id[0] === -1 ? data.nextId++ : fields.id[0];
+      data.entries[currentId] = { id: currentId };
+      for (const fieldKey in fields) {
+        const value = fields[fieldKey][0];
+        data.entries[currentId][fieldKey] = value;
+      }
+
+      if (files.cover !== undefined) {
+        const extension = files.cover[0].originalFilename.split('.').pop();
+        fs.copyFileSync(files.cover[0].filepath, `./media/${currentId}.${extension}`);
+        data.entries[currentId].cover = `${currentId}.${extension}`;
+      }
+
+      await saveDB();
+      res.status(201).json({ entry: data.entries[currentId] });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'error parsing form data' });
+    }
+
+    // await saveDB();
+    // res.status(didExists ? 201 : 200).json({ entry: data.entries[req.body.entry.id] });
 
     // DELETE
   } else if (req.method === 'DELETE') {
-    if (data.entries[req.body.id] === undefined)
+    const body = JSON.parse((await getRawBody(req)).toString());
+    if (data.entries[body.id] === undefined)
       res.status(404).json({ message: 'entry not found' });
     else {
-      if (data.entries[req.body.id].cover !== undefined) {
-        fs.unlinkSync(`./media/${data.entries[req.body.id].cover}`);
+      if (data.entries[body.id].cover !== undefined) {
+        fs.unlinkSync(`./media/${data.entries[body.id].cover}`);
       }
 
-      delete data.entries[req.body.id];
+      delete data.entries[body.id];
       await saveDB();
       res.status(200).json({ message: 'entry deleted' });
     }
