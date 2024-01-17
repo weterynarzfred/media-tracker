@@ -2,6 +2,7 @@ import fs from 'fs';
 import formidable from 'formidable';
 
 import { getDB, saveDB } from '../../../serverSide/DB';
+import resizeImage from '../../../serverSide/resizeImage';
 
 
 export default async function handler(req, res) {
@@ -33,9 +34,8 @@ export default async function handler(req, res) {
       }
 
       if (files.cover !== undefined) {
-        const extension = files.cover[0].originalFilename.split('.').pop();
-        fs.copyFileSync(files.cover[0].filepath, `./media/${currentId}.${extension}`);
-        data.entries[currentId].cover = `${currentId}.${extension}`;
+        await resizeImage(files.cover[0].filepath, `./media/${currentId}.jpg`);
+        data.entries[currentId].cover = `${currentId}.jpg`;
       }
 
       await saveDB();
