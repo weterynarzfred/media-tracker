@@ -13,7 +13,8 @@ export default function mainReducer(state, action) {
   } else if (action.type === ACTION_TYPES.TEST) {
     state.test = state?.test === undefined ? 1 : state.test + 1;
   } else if (action.type === ACTION_TYPES.ENTRY_EDIT) {
-    state.entries[action.entry.id] = action.entry;
+    if (action.entry !== undefined)
+      state.entries[action.entry.id] = action.entry;
   } else if (action.type === ACTION_TYPES.ENTRY_DELETE) {
     delete state.entries[action.id];
   } else if (action.type === ACTION_TYPES.ENTRY_EDITOR) {
