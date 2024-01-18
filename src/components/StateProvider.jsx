@@ -3,13 +3,13 @@ import { useEffect, useReducer } from 'react';
 import { createContainer } from 'react-tracked';
 
 import mainReducer, { ACTION_TYPES } from '../clientSide/mainReducer';
-import getInitEntries from '../clientSide/getInitEntries';
+import getInit from '../clientSide/getInit';
 
 function useValue() {
   const [state, dispatch] = useReducer(produce(mainReducer), {});
 
   useEffect(() => {
-    (async () => dispatch({ type: ACTION_TYPES.INIT, entries: await getInitEntries() }))();
+    (async () => dispatch({ type: ACTION_TYPES.INIT, ...await getInit() }))();
   }, []);
 
   return [state, dispatch];

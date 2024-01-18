@@ -31,7 +31,7 @@ export default function EntryItem({ entry }) {
         < img src={`/media/${entry.cover}`} alt={entry.name + ' cover'} style={{ display: 'block', width: '200px', height: 'auto' }} /> :
         null
     }
-    {entry.id} [{entry.type}]: {entry.name}
+    {entry.id} | [{entry.type}] <b>{entry.name}</b> | seen: {entry.seen}
     <button className="EntryItem__delete" onClick={handleDelete}>x</button>
     <button className="EntryItem__edit" onClick={handleEdit}>e</button>
   </div>;

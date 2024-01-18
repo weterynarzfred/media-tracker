@@ -9,12 +9,14 @@ const ACTION_TYPES = {
 export default function mainReducer(state, action) {
   if (action.type === ACTION_TYPES.INIT) {
     state.entries = action.entries;
+    state.types = action.types;
     state.isLoaded = true;
   } else if (action.type === ACTION_TYPES.TEST) {
     state.test = state?.test === undefined ? 1 : state.test + 1;
   } else if (action.type === ACTION_TYPES.ENTRY_EDIT) {
-    if (action.entry !== undefined)
-      state.entries[action.entry.id] = action.entry;
+    if (action.entry === undefined) return;
+    state.entries[action.entry.id] = action.entry;
+    if (!state.types.includes(action.entry.type)) state.types.push(action.entry.type);
   } else if (action.type === ACTION_TYPES.ENTRY_DELETE) {
     delete state.entries[action.id];
   } else if (action.type === ACTION_TYPES.ENTRY_EDITOR) {

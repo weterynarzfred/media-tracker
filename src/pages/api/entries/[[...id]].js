@@ -24,13 +24,16 @@ export default async function handler(req, res) {
       const [fields, files] = await form.parse(req);
 
       const didExist = data.entries[req.query.id?.[0]] !== undefined;
-      const currentId = didExist ? req.query.id[0] : data.nextId++;
+      const currentId = didExist ? req.query.id[0] : data.nextEntryId++;
       data.entries[currentId] = { id: currentId };
       for (const fieldKey in fields) {
         if (fieldKey === 'id') continue;
         if (fieldKey === 'cover' && fields[fieldKey][0] === '') continue;
 
         data.entries[currentId][fieldKey] = fields[fieldKey][0];
+
+        if (fieldKey === 'type' && !data.types.includes(fields[fieldKey][0]))
+          data.types.push(fields[fieldKey][0]);
       }
 
       if (files.cover !== undefined) {
@@ -59,11 +62,24 @@ export default async function handler(req, res) {
     else if (data.entries[req.query.id?.[0]] === undefined)
       res.status(404).json({ message: 'entry not found' });
     else {
-      if (data.entries[req.query.id].cover !== undefined) {
+      const deletedEntry = data.entries[req.query.id[0]];
+      if (deletedEntry.cover !== undefined) {
         try {
-          fs.unlinkSync(`./media/${data.entries[req.query.id?.[0]].cover}`);
+          fs.unlinkSync(`./media/${deletedEntry.cover}`);
         } catch { }
       }
+
+      let doesTypeStillExist = false;
+      for (const id in data.entries) {
+        if (parseInt(id) === deletedEntry.id) continue;
+        const entry = data.entries[id];
+        if (entry.type === deletedEntry.type) {
+          doesTypeStillExist = true;
+          break;
+        }
+      }
+      if (!doesTypeStillExist)
+        data.types.splice(data.types.indexOf(deletedEntry.type), 1);
 
       delete data.entries[req.query.id];
       await saveDB();
