@@ -16,9 +16,9 @@ export default function EntryEditor() {
   const [selectedType, setSelectedType] = useState();
   useEffect(() => {
     setSelectedType(editedEntry?.type !== undefined ? { value: editedEntry.type, label: editedEntry.type } : undefined);
-  }, [editedEntry?.type]);
+  }, [editedEntry?.type, state.entryEditor?.isOpen]);
 
-  const creatorWindow = state.entryEditor?.isOpen ? <div className="EntryEditor__window">
+  const creatorWindow = <div className="EntryEditor__window">
     <form onSubmit={handleSubmit.bind(null, dispatch, editedEntry, setSelectedType)}>
       <input type="hidden" name="id" value={editedEntry?.id ?? -1} />
       <input type="hidden" name="cover" value={editedEntry?.cover?.split('?')[0] ?? ''} />
@@ -40,12 +40,12 @@ export default function EntryEditor() {
       </div>
       <div className="input-row">
         <label>
-          <input type="text" name="name" placeholder="name" autoComplete="off" defaultValue={editedEntry?.name} />
+          <input key={editedEntry?.name} type="text" name="name" placeholder="name" autoComplete="off" defaultValue={editedEntry?.name} />
         </label>
       </div>
       <div className="input-row">
         <label>
-          <input type="number" name="seen" placeholder="seen" autoComplete="off" defaultValue={editedEntry?.seen} />
+          <input key={editedEntry?.seen} type="number" name="seen" placeholder="seen" autoComplete="off" defaultValue={editedEntry?.seen} />
         </label>
       </div>
       <div className="input-row">
@@ -57,13 +57,13 @@ export default function EntryEditor() {
         <button type="submit">{editedEntry === undefined ? 'add' : 'save'}</button>
       </div>
     </form>
-  </div> : null;
+  </div>;
 
   return <div className="EntryEditor">
     <button
       onClick={handleButtonOpen.bind(null, dispatch, state.entryEditor?.isOpen)}>
       {state.entryEditor?.isOpen ? 'close editor' : 'add entry'}
     </button>
-    {creatorWindow}
+    {state.entryEditor?.isOpen ? creatorWindow : null}
   </div>;
 }

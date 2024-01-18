@@ -26,7 +26,6 @@ function handleButtonOpen(dispatch, isOpen) {
   dispatch({
     type: ACTION_TYPES.ENTRY_EDITOR,
     isOpen: !isOpen,
-    id: -1,
   });
 }
 

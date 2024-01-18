@@ -23,6 +23,7 @@ export default function mainReducer(state, action) {
     if (state.entryEditor === undefined) state.entryEditor = {};
     if (action.isOpen !== undefined) state.entryEditor.isOpen = action.isOpen;
     if (action.id !== undefined) state.entryEditor.id = action.id;
+    else if (action.isOpen === false) action.id = -1;
   }
 }
 
