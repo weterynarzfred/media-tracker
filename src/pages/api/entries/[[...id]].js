@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     return;
   }
 
-  METHOD_HANDLERS[req.method](req, res);
+  await METHOD_HANDLERS[req.method](req, res);
 };
 
 export const config = { api: { bodyParser: false } };
