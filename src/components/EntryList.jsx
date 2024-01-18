@@ -10,8 +10,7 @@ export default function EntryList() {
     items = Object.values(state.entries).map(entry => <EntryItem key={entry.id} entry={entry} />);
 
   return <div className="EntryList">
-    entry list
-    {items}
+    <div className="EntryList__grid">{items}</div>
     <EntryEditor />
   </div>;
 }

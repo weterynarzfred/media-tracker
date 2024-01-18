@@ -26,13 +26,18 @@ export default function EntryItem({ entry }) {
   }
 
   return <div className="EntryItem">
-    {
-      entry.cover !== undefined ?
-        < img src={`/media/${entry.cover}`} alt={entry.name + ' cover'} style={{ display: 'block', width: '200px', height: 'auto' }} /> :
-        null
-    }
-    {entry.id} | [{entry.type}] <b>{entry.name}</b> | seen: {entry.seen}
-    <button className="EntryItem__delete" onClick={handleDelete}>x</button>
-    <button className="EntryItem__edit" onClick={handleEdit}>e</button>
+    <div className="EntryItem__cover-wrap">
+      {
+        entry.cover !== undefined ?
+          < img className="EntryItem__cover" src={`/media/${entry.cover}`} alt={entry.name + ' cover'} /> :
+          null
+      }
+    </div>
+    <div className="EntryItem__id">{entry.id}</div>
+    <div className="EntryItem__type">{entry.type}</div>
+    <div className="EntryItem__name">{entry.name}</div>
+    <div className="EntryItem__seen">{entry.countSeen} / {entry.countOut}</div>
+    <button className="EntryItem__delete" onClick={handleDelete}>&times;</button>
+    <button className="EntryItem__edit" onClick={handleEdit}>edit</button>
   </div>;
 }

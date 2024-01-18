@@ -45,7 +45,12 @@ export default function EntryEditor() {
       </div>
       <div className="input-row">
         <label>
-          <input key={editedEntry?.seen} type="number" name="seen" placeholder="seen" autoComplete="off" defaultValue={editedEntry?.seen} />
+          <input key={editedEntry?.countSeen} type="number" name="countSeen" placeholder="seen" autoComplete="off" defaultValue={editedEntry?.countSeen} />
+        </label>
+      </div>
+      <div className="input-row">
+        <label>
+          <input key={editedEntry?.countOut} type="number" name="countOut" placeholder="out" autoComplete="off" defaultValue={editedEntry?.countOut} />
         </label>
       </div>
       <div className="input-row">

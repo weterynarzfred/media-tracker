@@ -9,33 +9,5 @@ body {
   font-family: sans-serif;
 }
 
-.EntryEditor {
-  &__window {
-    max-width: 20em;
-    padding: 1em;
-  }
-
-  .input-row {
-    margin-bottom: 5px;
-
-    input,
-    .select {
-      width: 100%;
-      font: inherit;
-      background-color: #333;
-      color: #eee;
-      border: none;
-
-      &:focus {
-        outline: none;
-      }
-
-    }
-
-    ::placeholder,
-    ::-webkit-input-placeholder {
-      opacity: 1;
-      color: #777;
-    }
-  }
-}
+@import "./EntryList";
+@import "./EntryEditor";
