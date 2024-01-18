@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 
-import deleteEntry from '../clientSide/deleteEntry';
-import { ACTION_TYPES } from '../clientSide/mainReducer';
-import { useDispatch } from './StateProvider';
+import deleteEntry from '@/clientSide/deleteEntry';
+import { ACTION_TYPES } from '@/clientSide/mainReducer';
+import { useDispatch } from '@/components/StateProvider';
 
 export default function EntryItem({ entry }) {
   const dispatch = useDispatch();

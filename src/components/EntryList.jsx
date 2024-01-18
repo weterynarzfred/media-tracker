@@ -1,6 +1,6 @@
-import EntryEditor from './EntryEditor';
-import EntryItem from './EntryItem';
-import { useTrackedState } from './StateProvider';
+import EntryEditor from '@/components/EntryEditor';
+import EntryItem from '@/components/EntryItem';
+import { useTrackedState } from '@/components/StateProvider';
 
 export default function EntryList() {
   const state = useTrackedState();

@@ -1,4 +1,4 @@
-import { getDB } from '../../serverSide/DB';
+import { getDB } from "@/serverSide/DB";
 
 export default async function handler(req, res) {
   const data = getDB();
