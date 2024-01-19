@@ -1,7 +1,8 @@
 import createEntry from '@/clientSide/createEntry';
+import deleteEntry from "@/clientSide/deleteEntry";
 import { ACTION_TYPES } from '@/clientSide/mainReducer';
 
-async function handleSubmit(dispatch, editedEntry, setSelectedType, event) {
+async function handleSubmit(dispatch, editedEntry, event) {
   event.preventDefault();
   const formData = new FormData(event.currentTarget);
 
@@ -17,7 +18,6 @@ async function handleSubmit(dispatch, editedEntry, setSelectedType, event) {
         type: ACTION_TYPES.ENTRY_EDITOR,
         isOpen: false,
       });
-      setSelectedType(undefined);
     },
   });
 };
@@ -29,7 +29,71 @@ function handleButtonOpen(dispatch, isOpen) {
   });
 }
 
+function handleButtonClose(dispatch, event) {
+  event.preventDefault();
+  dispatch({
+    type: ACTION_TYPES.ENTRY_EDITOR,
+    isOpen: false,
+  });
+}
+
+function handleWrapClick(dispatch, event) {
+  if (event.isFromEntryEditorForm) return;
+
+  dispatch({
+    type: ACTION_TYPES.ENTRY_EDITOR,
+    isOpen: false,
+  });
+}
+
+function handleButtonDelete(dispatch, event) {
+  event.preventDefault();
+
+  dispatch({
+    type: ACTION_TYPES.ENTRY_EDITOR,
+    isAskedToDelete: true,
+  });
+}
+
+function handleButtonDeleteConfirm(dispatch, editedEntry) {
+  deleteEntry({
+    entry: editedEntry,
+    callback: () => {
+      dispatch({
+        type: ACTION_TYPES.ENTRY_DELETE,
+        id: editedEntry.id,
+      });
+      dispatch({
+        type: ACTION_TYPES.ENTRY_EDITOR,
+        isOpen: false,
+      });
+    },
+  });
+}
+
+function handleButtonDeleteCancel(dispatch) {
+  dispatch({
+    type: ACTION_TYPES.ENTRY_EDITOR,
+    isAskedToDelete: false,
+  });
+}
+
+function handleKeyUp(dispatch, event) {
+  if (event.key === 'Escape') {
+    dispatch({
+      type: ACTION_TYPES.ENTRY_EDITOR,
+      isOpen: false,
+    });
+  }
+}
+
 export {
   handleSubmit,
   handleButtonOpen,
+  handleButtonClose,
+  handleWrapClick,
+  handleButtonDelete,
+  handleButtonDeleteConfirm,
+  handleButtonDeleteCancel,
+  handleKeyUp,
 };

@@ -1,74 +1,83 @@
-import { useEffect, useState } from 'react';
-import CreatableSelect from 'react-select/creatable';
+import { useEffect } from 'react';
 
 import { useDispatch, useTrackedState } from '@/components/StateProvider';
-import selectStyles from '@/clientSide/selectStyles';
-import { handleButtonOpen, handleSubmit } from '@/clientSide/entryEditorHandlers';
+import {
+  handleButtonClose,
+  handleButtonDelete,
+  handleButtonDeleteCancel,
+  handleButtonDeleteConfirm,
+  handleButtonOpen,
+  handleKeyUp,
+  handleSubmit,
+  handleWrapClick,
+} from '@/clientSide/entryEditorHandlers';
+import EntryEditorInputs from "@/components/EntryEditorInputs";
 
 export default function EntryEditor() {
   const state = useTrackedState();
   const dispatch = useDispatch();
 
-  const editedEntry = [-1, undefined].includes(state.entryEditor?.id) ? undefined : state.entries[state.entryEditor.id];
+  const editedEntry = [-1, undefined].includes(state.entryEditor?.id) ?
+    undefined :
+    state.entries[state.entryEditor.id];
 
-  const typeOptions = state.types?.map(type => ({ value: type, label: type })) ?? [];
-
-  const [selectedType, setSelectedType] = useState();
   useEffect(() => {
-    setSelectedType(editedEntry?.type !== undefined ? { value: editedEntry.type, label: editedEntry.type } : undefined);
-  }, [editedEntry?.type, state.entryEditor?.isOpen]);
+    if (!state.entryEditor?.isOpen) return;
 
-  const creatorWindow = <div className="EntryEditor__window">
-    <form onSubmit={handleSubmit.bind(null, dispatch, editedEntry, setSelectedType)}>
-      <input type="hidden" name="id" value={editedEntry?.id ?? -1} />
-      <input type="hidden" name="cover" value={editedEntry?.cover?.split('?')[0] ?? ''} />
-      <div className="input-row">
-        <label>
-          <CreatableSelect
-            name="type"
-            placeholder="type"
-            options={typeOptions}
-            value={selectedType}
-            onChange={setSelectedType}
-            isClearable={true}
-            isSearchable={true}
-            components={{ DropdownIndicator: null }}
-            className='select'
-            styles={selectStyles}
-          />
-        </label>
-      </div>
-      <div className="input-row">
-        <label>
-          <input key={editedEntry?.name} type="text" name="name" placeholder="name" autoComplete="off" defaultValue={editedEntry?.name} />
-        </label>
-      </div>
-      <div className="input-row">
-        <label>
-          <input key={editedEntry?.countSeen} type="number" name="countSeen" placeholder="seen" autoComplete="off" defaultValue={editedEntry?.countSeen} />
-        </label>
-      </div>
-      <div className="input-row">
-        <label>
-          <input key={editedEntry?.countOut} type="number" name="countOut" placeholder="out" autoComplete="off" defaultValue={editedEntry?.countOut} />
-        </label>
-      </div>
-      <div className="input-row">
-        <label>
-          <input type="file" name="cover" />
-        </label>
-      </div>
-      <div className="input-row">
-        <button type="submit">{editedEntry === undefined ? 'add' : 'save'}</button>
-      </div>
-    </form>
+    const boundHandleKeyUp = handleKeyUp.bind(null, dispatch);
+    window.addEventListener('keyup', boundHandleKeyUp);
+    return () => window.removeEventListener('keyup', boundHandleKeyUp);
+  }, [dispatch, state.entryEditor?.isOpen]);
+
+  const editorWindow = <div className="EntryEditor__window">
+    <div id="nav-wrap" onClick={handleWrapClick.bind(null, dispatch)}>
+      <form
+        onSubmit={handleSubmit.bind(null, dispatch, editedEntry)}
+        onClick={event => event.isFromEntryEditorForm = true}
+      >
+        <input type="hidden" name="id" value={editedEntry?.id ?? -1} />
+        <input type="hidden" name="cover" value={editedEntry?.cover?.split('?')[0] ?? ''} />
+        <EntryEditorInputs
+          editedEntry={editedEntry}
+          types={state.types}
+        />
+        <div className="input-row">
+          {editedEntry !== undefined ?
+            <button
+              className="EntryEditor__delete"
+              onClick={handleButtonDelete.bind(null, dispatch)}
+            >delete</button> : null}
+          <button type="submit">{editedEntry === undefined ? 'add' : 'save'}</button>
+          <button
+            className="EntryEditor__cancel"
+            onClick={handleButtonClose.bind(null, dispatch)}
+          >cancel</button>
+        </div>
+        {state.entryEditor?.isAskedToDelete ?
+          <div className="EntryEditor__asked-to-delete">
+            are you sure you want to delete this entry?
+            <div className="EntryEditor__asked-to-delete-choices">
+              <div
+                className="EntryEditor__asked-to-delete-confirm"
+                onClick={handleButtonDeleteConfirm.bind(null, dispatch, editedEntry)}
+              >yes</div>
+              <div>/</div>
+              <div
+                className="EntryEditor__asked-to-delete-cancel"
+                onClick={handleButtonDeleteCancel.bind(null, dispatch)}
+              >no</div>
+            </div>
+          </div> :
+          null}
+      </form>
+    </div>
   </div>;
 
   return <div className="EntryEditor">
     <button
       onClick={handleButtonOpen.bind(null, dispatch, state.entryEditor?.isOpen)}>
-      {state.entryEditor?.isOpen ? 'close editor' : 'add entry'}
+      add new entry
     </button>
-    {state.entryEditor?.isOpen ? creatorWindow : null}
+    {state.entryEditor?.isOpen ? editorWindow : null}
   </div>;
 }
