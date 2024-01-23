@@ -5,7 +5,7 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <meta charSet="UTF-8" />
-        <link rel="icon" type="image/png" href="/favicon.png" />
+        {/* <link rel="icon" type="image/png" href="/favicon.png" /> */}
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="color-scheme" content="light only"></meta>
       </Head>

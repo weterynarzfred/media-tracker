@@ -30,7 +30,7 @@ export default function EntryEditor() {
   }, [dispatch, state.entryEditor?.isOpen]);
 
   const editorWindow = <div className="EntryEditor__window">
-    <div id="nav-wrap" onClick={handleWrapClick.bind(null, dispatch)}>
+    <div className="EntryEditor__wrap" onClick={handleWrapClick.bind(null, dispatch)}>
       <form
         onSubmit={handleSubmit.bind(null, dispatch, editedEntry)}
         onClick={event => event.isFromEntryEditorForm = true}
@@ -41,18 +41,23 @@ export default function EntryEditor() {
           editedEntry={editedEntry}
           types={state.types}
         />
-        <div className="input-row">
+
+        <div className="EntryEditor__buttons">
           {editedEntry !== undefined ?
             <button
               className="EntryEditor__delete"
               onClick={handleButtonDelete.bind(null, dispatch)}
             >delete</button> : null}
-          <button type="submit">{editedEntry === undefined ? 'add' : 'save'}</button>
+          <button
+            className="EntryEditor__submit"
+            type="submit"
+          >{editedEntry === undefined ? 'add' : 'save'}</button>
           <button
             className="EntryEditor__cancel"
             onClick={handleButtonClose.bind(null, dispatch)}
           >cancel</button>
         </div>
+
         {state.entryEditor?.isAskedToDelete ?
           <div className="EntryEditor__asked-to-delete">
             are you sure you want to delete this entry?
@@ -74,10 +79,15 @@ export default function EntryEditor() {
   </div>;
 
   return <div className="EntryEditor">
-    <button
-      onClick={handleButtonOpen.bind(null, dispatch, state.entryEditor?.isOpen)}>
-      add new entry
-    </button>
+    <div
+      className="EntryEditor__add-button"
+      onClick={handleButtonOpen.bind(null, dispatch, state.entryEditor?.isOpen)}
+    >
+      <svg viewBox="0 0 10 10">
+        <path d="M2 5L8 5" />
+        <path d="M5 2L5 8" />
+      </svg>
+    </div>
     {state.entryEditor?.isOpen ? editorWindow : null}
   </div>;
 }

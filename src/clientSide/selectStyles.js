@@ -8,6 +8,14 @@ const selectStyles = {
     backgroundColor: '#333',
     color: '#eee',
     minHeight: 0,
+    height: '100%',
+  }),
+  valueContainer: base => ({
+    ...base,
+    padding: 0,
+    backgroundColor: '#333',
+    color: '#eee',
+    height: '100%',
   }),
   menu: base => ({
     ...base,
@@ -30,16 +38,17 @@ const selectStyles = {
     ...base,
     backgroundColor: '#333',
     color: '#eee',
-  }),
-  valueContainer: base => ({
-    ...base,
-    padding: 0,
-    backgroundColor: '#333',
-    color: '#eee',
+    height: '100%',
+    margin: '0',
+    display: 'flex',
+    alignItems: 'center',
   }),
   dropdownIndicator: base => ({
     ...base,
     padding: 0,
+  }),
+  indicatorSeparator: () => ({
+    display: 'none',
   }),
   clearIndicator: base => ({
     ...base,
@@ -52,6 +61,7 @@ const selectStyles = {
   input: base => ({
     ...base,
     margin: 0,
+    padding: 0,
     color: '#eee',
   }),
 };
