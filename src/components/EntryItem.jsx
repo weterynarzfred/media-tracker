@@ -25,7 +25,11 @@ export default function EntryItem({ entry }) {
     <div className="EntryItem__id"></div>
     <div className="EntryItem__type">{entry.type}</div>
     <div className="EntryItem__name">{entry.name}</div>
-    <div className="EntryItem__seen">{entry.countSeen} / {entry.countOut}</div>
+    {
+      entry.countSeen || entry.countOut ?
+        <div className="EntryItem__seen">{entry.countSeen ? entry.countSeen : 0} {entry.countOut ? `/ ${entry.countOut}` : null}</div> :
+        null
+    }
     <button className="EntryItem__edit" onClick={handleEdit}>edit</button>
   </div>;
 }

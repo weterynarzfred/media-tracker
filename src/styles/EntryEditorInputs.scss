@@ -1,10 +1,15 @@
 .EntryEditorInputs {
+  --inputBackgroundColor: #191919;
+  --inputBorderColor: #333;
+  --inputPadding: 0 12px;
+  --inputSpacing: .5rem;
+
   .input-row {
-    margin-bottom: 5px;
+    margin-bottom: var(--inputSpacing);
 
     label {
       display: flex;
-      gap: .5rem;
+      gap: var(--inputSpacing);
       align-items: center;
     }
 
@@ -12,18 +17,51 @@
     input,
     .select,
     .input-display {
+      display: block;
+      min-width: 0;
       width: 100%;
-      height: 22px;
+      height: 25px;
       font: inherit;
-      background-color: #333;
+      background-color: var(--inputBackgroundColor);
       color: #eee;
       border: none;
-      padding: 0 .5rem;
       resize: none;
+      border-radius: 5px;
+      border: 1px solid var(--inputBorderColor);
+      text-align: center;
 
       &:focus {
         outline: none;
       }
+
+      &:hover {
+        background-color: #222;
+      }
+    }
+
+    .select input,
+    &.input-row--name textarea {
+      border: none;
+    }
+
+    .select {
+      &__control {
+        cursor: pointer;
+
+        &:hover {
+          background-color: #222;
+        }
+      }
+
+      &__option:active {
+        background-color: #333;
+      }
+    }
+
+    textarea,
+    input,
+    .input-display {
+      padding: var(--inputPadding);
     }
 
     input[type=number] {
@@ -46,7 +84,8 @@
     &--name {
       textarea {
         background: none;
-        font-size: 2em;
+        font-size: 1.62em;
+        padding: 0;
       }
     }
 
@@ -59,10 +98,6 @@
         display: flex;
         align-items: center;
         cursor: pointer;
-
-        &:hover {
-          background-color: #444;
-        }
       }
     }
   }
@@ -75,11 +110,13 @@
 
   .input-group {
     display: flex;
-    gap: .5rem;
+    gap: var(--inputSpacing);
     align-items: center;
+    margin-bottom: var(--inputSpacing);
 
     .input-row {
       width: 50%;
+      margin-bottom: 0;
     }
   }
 }

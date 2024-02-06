@@ -87,6 +87,7 @@ export default function EntryEditor() {
         <path d="M2 5L8 5" />
         <path d="M5 2L5 8" />
       </svg>
+      <span>add item</span>
     </div>
     {state.entryEditor?.isOpen ? editorWindow : null}
   </div>;

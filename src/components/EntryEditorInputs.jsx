@@ -38,6 +38,7 @@ export default function EntryEditorInputs({ editedEntry, types }) {
           isClearable={true}
           isSearchable={true}
           className='select'
+          classNamePrefix='select'
           styles={selectStyles}
         />
       </label>
@@ -49,7 +50,7 @@ export default function EntryEditorInputs({ editedEntry, types }) {
         <label>
           <input
             key={editedEntry?.id}
-            type="number"
+            type="text"
             name="countSeen"
             placeholder="seen"
             autoComplete="off"
@@ -62,7 +63,7 @@ export default function EntryEditorInputs({ editedEntry, types }) {
         <label>
           <input
             key={editedEntry?.id}
-            type="number"
+            type="text"
             name="countOut"
             placeholder="out"
             autoComplete="off"
