@@ -1,9 +1,12 @@
 .EntryList {
-  padding: 1em;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 3em 1em;
 
-  &__grid {
+  &__table {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 5px;
+    grid-template-columns: 100px 1fr 60px 60px;
+    align-items: start;
+    gap: .5rem;
   }
 }

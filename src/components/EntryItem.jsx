@@ -21,15 +21,20 @@ export default function EntryItem({ entry }) {
           < img className="EntryItem__cover" src={`/media/${entry.cover}`} alt={entry.name + ' cover'} /> :
           null
       }
+      <button className="EntryItem__edit" onClick={handleEdit}>edit</button>
     </div>
-    <div className="EntryItem__id"></div>
-    <div className="EntryItem__type">{entry.type}</div>
-    <div className="EntryItem__name">{entry.name}</div>
-    {
-      entry.countSeen || entry.countOut ?
-        <div className="EntryItem__seen">{entry.countSeen ? entry.countSeen : 0} {entry.countOut ? `/ ${entry.countOut}` : null}</div> :
-        null
-    }
-    <button className="EntryItem__edit" onClick={handleEdit}>edit</button>
+
+    <div className="EntryItem__name-wrap">
+      <div className="EntryItem__type">{entry.type}</div>
+      <div className="EntryItem__name">{entry.name}</div>
+    </div>
+    <div className="EntryItem__seen">
+      {
+        entry.countSeen || entry.countOut ?
+          (entry.countSeen ? entry.countSeen : 0) +
+          (entry.countOut ? ` / ${entry.countOut}` : '') :
+          null
+      }
+    </div>
   </div>;
 }

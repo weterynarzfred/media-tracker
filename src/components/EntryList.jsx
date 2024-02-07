@@ -7,10 +7,12 @@ export default function EntryList() {
 
   let items = null;
   if (state.entries !== undefined)
-    items = Object.values(state.entries).map(entry => <EntryItem key={entry.id} entry={entry} />);
+    items = Object.values(state.entries).map(entry =>
+      <EntryItem key={entry.id} entry={entry} />
+    );
 
   return <div className="EntryList">
-    <div className="EntryList__grid">{items}</div>
+    <div className="EntryList__table">{items}</div>
     <EntryEditor />
   </div>;
 }
