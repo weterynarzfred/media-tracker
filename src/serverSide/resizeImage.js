@@ -1,9 +1,12 @@
 import gm from 'gm';
+import fs from 'fs';
 
 const THUMB_SIZE = 512 * 512;
 
 export default function resizeImage(sourcePath, outPath) {
   return new Promise(resolve => {
+    if (!fs.existsSync('./media')) { fs.mkdirSync('./media'); }
+
     const gmImage = gm(sourcePath);
 
     gmImage.size((_err, size) => {
