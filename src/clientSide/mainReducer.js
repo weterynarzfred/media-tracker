@@ -8,8 +8,7 @@ const ACTION_TYPES = {
 export default function mainReducer(state, action) {
 
   if (action.type === ACTION_TYPES.INIT) {
-    state.entries = action.entries;
-    state.types = action.types;
+    Object.assign(state, action.data);
     state.isLoaded = true;
 
   } else if (action.type === ACTION_TYPES.TEST) {
@@ -19,6 +18,8 @@ export default function mainReducer(state, action) {
     if (action.entry === undefined) return;
     state.entries[action.entry.id] = action.entry;
     if (!state.types.includes(action.entry.type)) state.types.push(action.entry.type);
+    if (!state.statuses.includes(action.entry.status)) state.statuses.push(action.entry.status);
+    if (!state.languages.includes(action.entry.language)) state.languages.push(action.entry.language);
 
   } else if (action.type === ACTION_TYPES.ENTRY_DELETE) {
     delete state.entries[action.id];

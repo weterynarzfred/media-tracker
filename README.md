@@ -2,37 +2,51 @@
 
 ## entry data
 {
-  id,
-  cover,
-  type,
-  name,
-  score,
-  handlerID,
+  id: int,
+  cover: string,
+  type: string,
+  handlerKey: [handlerKey],
+  name: string,
+  creator: string,
+  language: langKey,
+  status: statusKey,
+  score: float,
+  note: string, // TODO
+  links: { // TODO
+    targetKey: url,
+  },
   counts: {
-    seen,
-    out,
+    seen: string,
+    out: string,
   },
-  time: {
-    created,
-    modified,
-    seen,
-    out,
+  time: { // TODO
+    created: timestamp,
+    modified: timestamp,
+    seen: timestamp,
+    out: timestamp,
   },
-  handlers: {
-    [handlerId]: {
-      data,
+  handlers: { // TODO
+  [handlerKey: {
+      data: json,
       time: {
-        checked,
-        modified,
+        checked: timestamp,
+        modified: timestamp,
       },
     },
   },
 }
 
-## mvp
+## todo
 - [x] switch to a list view
+- [ ] add necessary data to entries
 - [ ] button to increase counts.seen
 - [ ] nyaa handler
 - [ ] links to new releases
 - [ ] handlers increasing counts.out
 - [ ] splitting counts into numbers
+- [ ] handle filtering and searching
+
+## bugs
+- [ ] pressing enter int the EntryEditor should confirm the edit
+- [ ] allow closing a select input with the escape key
+- [ ] allow canceling deletion with the escape key

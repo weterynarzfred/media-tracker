@@ -39,7 +39,6 @@ export default function EntryEditor() {
         <input type="hidden" name="cover" value={editedEntry?.cover?.split('?')[0] ?? ''} />
         <EntryEditorInputs
           editedEntry={editedEntry}
-          types={state.types}
         />
 
         <div className="EntryEditor__buttons">

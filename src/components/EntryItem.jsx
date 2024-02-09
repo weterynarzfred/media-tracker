@@ -17,7 +17,7 @@ export default function EntryItem({ entry }) {
   return <div className="EntryItem">
     <div className="EntryItem__cover-wrap">
       {
-        entry.cover !== undefined ?
+        entry.cover !== null ?
           < img className="EntryItem__cover" src={`/media/${entry.cover}`} alt={entry.name + ' cover'} /> :
           null
       }

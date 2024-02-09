@@ -2,6 +2,22 @@ import fs from 'fs';
 
 import { getDB, saveDB } from "@/serverSide/DB";
 
+function cleanMetaIndex(key, keyPlural, deletedEntry, data) {
+  let doesStillExist = false;
+  for (const id in data.entries) {
+    const entry = data.entries[id];
+    if (entry.id === deletedEntry.id) continue;
+
+    if (entry[key] === deletedEntry[key]) {
+      doesStillExist = true;
+      break;
+    }
+  }
+
+  if (!doesStillExist)
+    data[keyPlural].splice(data[keyPlural].indexOf(deletedEntry[key]), 1);
+}
+
 export default async function entriesDelete(req, res) {
   const data = getDB();
 
@@ -17,17 +33,10 @@ export default async function entriesDelete(req, res) {
       } catch { }
     }
 
-    let doesTypeStillExist = false;
-    for (const id in data.entries) {
-      if (parseInt(id) === deletedEntry.id) continue;
-      const entry = data.entries[id];
-      if (entry.type === deletedEntry.type) {
-        doesTypeStillExist = true;
-        break;
-      }
-    }
-    if (!doesTypeStillExist)
-      data.types.splice(data.types.indexOf(deletedEntry.type), 1);
+    cleanMetaIndex('type', 'types', deletedEntry, data);
+    cleanMetaIndex('language', 'languages', deletedEntry, data);
+    cleanMetaIndex('status', 'statuses', deletedEntry, data);
+
 
     delete data.entries[req.query.id];
     await saveDB();
