@@ -38,7 +38,7 @@
 
 ## todo
 - [x] switch to a list view
-- [ ] add necessary data to entries
+- [x] add necessary data to entries
 - [ ] button to increase counts.seen
 - [ ] nyaa handler
 - [ ] links to new releases
