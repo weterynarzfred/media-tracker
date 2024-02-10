@@ -11,7 +11,32 @@ body {
   font-family: sans-serif;
 }
 
+.button {
+  background-color: $colorBg0;
+  color: $colorGray;
+  border: 1px solid $colorGray;
+  box-shadow: 0 0 2px #000;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: .2s;
+
+  &:hover {
+    background-color: $colorBg;
+    color: $colorGreen1;
+    border-color: $colorGreen1;
+
+    svg path {
+      stroke: $colorGreen1;
+    }
+  }
+
+  &:active {
+    background-color: $colorBg1;
+  }
+}
+
 @import "./EntryList";
 @import "./EntryItem";
+@import "./EntryItemSeen";
 @import "./EntryEditor";
 @import "./EntryEditorInputs";
