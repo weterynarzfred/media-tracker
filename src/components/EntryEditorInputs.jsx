@@ -1,14 +1,12 @@
+import { useState } from "react";
 import Select from "react-select";
 import CreatableSelect from 'react-select/creatable';
-import selectStyles from '@/clientSide/selectStyles';
 import TextareaAutosize from "react-textarea-autosize";
-import { useState } from "react";
-import { useTrackedState } from "@/components/StateProvider";
 import classNames from "classnames";
+import { isEmpty } from "lodash";
 
-function isEmpty(e) {
-  return [undefined, null, ''].includes(e);
-}
+import selectStyles from '@/clientSide/selectStyles';
+import { useTrackedState } from "@/components/StateProvider";
 
 export default function EntryEditorInputs({ editedEntry }) {
   const state = useTrackedState();

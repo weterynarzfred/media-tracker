@@ -44,15 +44,15 @@ export default function EntryEditor() {
         <div className="EntryEditor__buttons">
           {editedEntry !== undefined ?
             <button
-              className="EntryEditor__delete"
+              className="EntryEditor__delete button"
               onClick={handleButtonDelete.bind(null, dispatch)}
             >delete</button> : null}
           <button
-            className="EntryEditor__submit"
+            className="EntryEditor__submit button"
             type="submit"
           >{editedEntry === undefined ? 'add' : 'save'}</button>
           <button
-            className="EntryEditor__cancel"
+            className="EntryEditor__cancel button"
             onClick={handleButtonClose.bind(null, dispatch)}
           >cancel</button>
         </div>
@@ -79,7 +79,7 @@ export default function EntryEditor() {
 
   return <div className="EntryEditor">
     <div
-      className="EntryEditor__add-button"
+      className="EntryEditor__add-button button"
       onClick={handleButtonOpen.bind(null, dispatch, state.entryEditor?.isOpen)}
     >
       <svg viewBox="0 0 10 10">

@@ -7,7 +7,7 @@ export default function deleteEntry({ entry, callback }) {
     body: JSON.stringify({ id: entry.id }),
   }).then(response => {
     if (response.ok) return response.json();
-    else throw new Error('network error');
+    else throw new Error('server error');
   }).then(() => {
     if (typeof callback === 'function') callback();
   });

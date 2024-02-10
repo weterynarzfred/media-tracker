@@ -6,7 +6,7 @@ export default async function getInit() {
     },
   }).then((response) => {
     if (response.ok) return response.json();
-    throw new Error('network error');
+    throw new Error('server error');
   });
 
   const typesResponse = await fetch('/api/types', {
@@ -16,7 +16,7 @@ export default async function getInit() {
     },
   }).then((response) => {
     if (response.ok) return response.json();
-    throw new Error('network error');
+    throw new Error('server error');
   });
 
   const statusesResponse = await fetch('/api/statuses', {
@@ -26,7 +26,7 @@ export default async function getInit() {
     },
   }).then((response) => {
     if (response.ok) return response.json();
-    throw new Error('network error');
+    throw new Error('server error');
   });
 
   const languagesResponse = await fetch('/api/languages', {
@@ -36,7 +36,7 @@ export default async function getInit() {
     },
   }).then((response) => {
     if (response.ok) return response.json();
-    throw new Error('network error');
+    throw new Error('server error');
   });
 
   const handlersResponse = await fetch('/api/handlers', {
@@ -46,7 +46,7 @@ export default async function getInit() {
     },
   }).then((response) => {
     if (response.ok) return response.json();
-    throw new Error('network error');
+    throw new Error('server error');
   });
 
   return {

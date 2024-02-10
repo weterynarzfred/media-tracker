@@ -1,12 +1,9 @@
 import formidable from 'formidable';
+import { isEmpty } from "lodash";
 
 import { getDB, saveDB } from "@/serverSide/DB";
 import resizeImage from "@/serverSide/resizeImage";
 import handlers from "@/serverSide/handlers/handlersIndex";
-
-function isEmpty(e) {
-  return [undefined, null, ''].includes(e);
-}
 
 export default async function entriesPost(req, res) {
   const data = getDB();

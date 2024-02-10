@@ -1,4 +1,4 @@
-import createEntry from '@/clientSide/createEntry';
+import editEntry from '@/clientSide/editEntry';
 import deleteEntry from "@/clientSide/deleteEntry";
 import { ACTION_TYPES } from '@/clientSide/mainReducer';
 
@@ -6,7 +6,7 @@ async function handleSubmit(dispatch, editedEntry, event) {
   event.preventDefault();
   const formData = new FormData(event.currentTarget);
 
-  createEntry({
+  editEntry({
     form: formData,
     isNew: editedEntry === undefined,
     callback: data => {

@@ -39,7 +39,7 @@
 ## todo
 - [x] switch to a list view
 - [x] add necessary data to entries
-- [ ] button to increase counts.seen
+- [x] button to increase counts.seen
 - [ ] nyaa handler
 - [ ] links to new releases
 - [ ] handlers increasing counts.out
