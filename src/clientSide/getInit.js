@@ -53,8 +53,8 @@ export default async function getInit() {
     data: {
       entries: entriesResponse.entries,
       types: typesResponse.types,
-      statuses: statusesResponse.types,
-      languages: languagesResponse.types,
+      statuses: statusesResponse.statuses,
+      languages: languagesResponse.languages,
       handlers: handlersResponse.handlers,
     },
   };
