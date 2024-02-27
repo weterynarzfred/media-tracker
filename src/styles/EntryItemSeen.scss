@@ -1,13 +1,16 @@
 .EntryItemSeen {
   display: flex;
   width: 200px;
+  padding-right: 1em;
   flex-shrink: 0;
   align-self: center;
   justify-content: flex-start;
   align-items: center;
 
   input {
-    width: 50%;
+    width: 120px;
+    min-width: 0;
+    flex-shrink: 1;
     background: none;
     border: none;
     padding: 0;
@@ -22,7 +25,13 @@
     width: 1.2em;
     height: 1.2em;
     padding: .07em 0 0 0;
+    flex-shrink: 0;
     line-height: 1;
     text-align: center;
+  }
+
+  &__out {
+    flex-grow: 1;
+    white-space: nowrap;
   }
 }

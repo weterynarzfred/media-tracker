@@ -45,6 +45,7 @@
     background-color: #000c;
     backdrop-filter: blur(5px);
     overflow: auto;
+    z-index: 20;
     -ms-overflow-style: none;
     scrollbar-width: none;
 

@@ -43,7 +43,6 @@
 - [ ] nyaa handler
 - [ ] links to new releases
 - [ ] handlers increasing counts.out
-- [ ] splitting counts into numbers
 - [ ] handle filtering and searching
 
 ## bugs
