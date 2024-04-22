@@ -6,7 +6,7 @@ export default async function getInit() {
     },
   }).then((response) => {
     if (response.ok) return response.json();
-    throw new Error('server error');
+    throw new Error('server error fetching entries');
   });
 
   const typesResponse = await fetch('/api/types', {
@@ -16,7 +16,7 @@ export default async function getInit() {
     },
   }).then((response) => {
     if (response.ok) return response.json();
-    throw new Error('server error');
+    throw new Error('server error fetching entry types');
   });
 
   const statusesResponse = await fetch('/api/statuses', {

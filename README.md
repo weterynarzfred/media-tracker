@@ -5,7 +5,7 @@
   id: int,
   cover: string,
   type: string,
-  handlerKey: [handlerKey],
+  handlerKeys: [handlerKey],
   name: string,
   creator: string,
   language: langKey,

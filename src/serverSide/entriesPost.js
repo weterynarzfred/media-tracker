@@ -38,7 +38,7 @@ export default async function entriesPost(req, res) {
     if (entry.status !== null && !data.statuses.includes(entry.status))
       data.statuses.push(entry.status);
 
-    // replace or add cover if new file was sent
+    // replace or add cover if a new file was sent
     if (!isEmpty(files.cover?.[0])) {
       await resizeImage(files.cover[0].filepath, `./media/${entry.id}.jpg`);
       entry.cover = `${entry.id}.jpg`;

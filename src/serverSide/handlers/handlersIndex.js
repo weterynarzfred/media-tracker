@@ -1,6 +1,8 @@
+import { handler as nyaaHandler } from "@/serverSide/handlers/nyaa";
+
 const handlers = {
-  'nyaa': '// TODO',
-  'mangadex': '// TODO',
+  'nyaa': nyaaHandler,
+  'mangadex': () => { },
 };
 
 export default handlers;
